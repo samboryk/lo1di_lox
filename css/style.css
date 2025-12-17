@@ -21,6 +21,21 @@ a{
 .header{
   width: 100%;
   background-color: #6500FE;
+  position: relative;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.header.sticky{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+body.has-sticky-header .main{
+  padding-top: 210px;
 }
 
 .navbar {
