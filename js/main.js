@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const header = document.querySelector('.header');
   const stickyOffset = 100;
+  const scrollTopButton = document.querySelector('.scroll_text');
 
   const toggleStickyHeader = () => {
     if (!header) return;
@@ -18,6 +19,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
   toggleStickyHeader();
   window.addEventListener('scroll', toggleStickyHeader, { passive: true });
+
+  const initScrollTopButton = () => {
+    if (!scrollTopButton) return;
+
+    scrollTopButton.textContent = '↑';
+    scrollTopButton.setAttribute('role', 'button');
+    scrollTopButton.setAttribute('aria-label', 'Прокрутити нагору');
+    scrollTopButton.tabIndex = 0;
+
+    const toggleVisibility = () => {
+      if (window.scrollY > 300) {
+        scrollTopButton.classList.add('visible');
+      } else {
+        scrollTopButton.classList.remove('visible');
+      }
+    };
+
+    const scrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    scrollTopButton.addEventListener('click', scrollToTop);
+    scrollTopButton.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        scrollToTop();
+      }
+    });
+
+    toggleVisibility();
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
+  };
+
+  initScrollTopButton();
 
   const mapMenuToSections = () => {
     const menuLinks = Array.from(document.querySelectorAll('.menu a'));
@@ -119,6 +154,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     slider.addEventListener('pointerleave', () => {
       slider.dataset.startX = '';
+    });
+
+    slider.addEventListener('click', (event) => {
+      const rect = slider.getBoundingClientRect();
+      const isNext = event.clientX - rect.left > rect.width / 2;
+      moveToSlide(currentIndex + (isNext ? 1 : -1));
+      resetAutoplay();
+    });
+
+    slider.tabIndex = 0;
+    slider.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight') {
+        moveToSlide(currentIndex + 1);
+        resetAutoplay();
+      }
+      if (event.key === 'ArrowLeft') {
+        moveToSlide(currentIndex - 1);
+        resetAutoplay();
+      }
     });
   };
 

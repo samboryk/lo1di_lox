@@ -38,6 +38,33 @@ body.has-sticky-header .main{
   padding-top: 210px;
 }
 
+.scroll_text{
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #FD5F64;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transform: translateY(15px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.scroll_text.visible{
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
 .navbar {
   display: flex;
   height: 100px;
